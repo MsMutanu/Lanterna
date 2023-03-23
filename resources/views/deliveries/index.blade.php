@@ -10,26 +10,23 @@
                     <tr>
                         <th>Delivery Number</th>
                         <th>Order Number</th>
-                        <th>Supplier</th>
+                        <th>Supplier number</th>
+                        <th>customer</th>
                         <th>Delivery Date</th>
-                        <th>Items</th>
-                        <th>Actions</th>
+                        
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($deliveries as $delivery)
                     <tr>
-                        <td>{{ $delivery->delivery_number }}</td>
-                        <td>{{ $delivery->order->order_number }}</td>
-                        <td>{{ $delivery->order->supplier->company_name }}</td>
+                        <td>{{ $delivery->id }}</td>
+                        <td>{{ $delivery->order_id }}</td>
+                        <td>{{ $delivery->supplier_id }}</td>
+                        <td>{{ $delivery->customer }}</td>
                         <td>{{ $delivery->delivery_date }}</td>
-                        <td>
-                            <ul>
-                                @foreach($delivery->items as $item)
-                                <li>{{ $item->name }} ({{ $item->quantity }} {{ $item->unit }})</li>
-                                @endforeach
-                            </ul>
-                        </td>
+                        <td>{{ $delivery->status }}</td>
+                        
                         <td>
                             <a href="{{ route('deliveries.show', $delivery->id) }}" class="btn btn-info">View</a>
                             <a href="{{ route('deliveries.edit', $delivery->id) }}" class="btn btn-warning">Edit</a>

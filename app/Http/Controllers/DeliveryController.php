@@ -38,15 +38,14 @@ class DeliveryController extends Controller
     {
         $validatedData = $request->validate([
             'delivery_date' => 'required|date',
-            'delivery_time' => 'required',
-            'address' => 'required',
+           
+            
             'status' => 'required',
         ]);
 
         $delivery = new Delivery();
         $delivery->delivery_date = $request->input('delivery_date');
-        $delivery->delivery_time = $request->input('delivery_time');
-        $delivery->address = $request->input('address');
+        
         $delivery->status = $request->input('status');
         $delivery->save();
 
@@ -94,16 +93,13 @@ class DeliveryController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'delivery_date' => 'required|date',
-            'delivery_time' => 'required',
-            'address' => 'required',
+            'delivery_date' => 'required',
             'status' => 'required',
         ]);
 
         $delivery = Delivery::findOrFail($id);
         $delivery->delivery_date = $request->input('delivery_date');
-        $delivery->delivery_time = $request->input('delivery_time');
-        $delivery->address = $request->input('address');
+        
         $delivery->status = $request->input('status');
         $delivery->save();
 

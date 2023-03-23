@@ -62,7 +62,7 @@ class ProductController extends Controller
     public function show($id)
 {
     $products = product::findOrFail($id);
-    return view('products.show');
+    return view('products.show', compact('products'));
 }
 
 
@@ -75,7 +75,7 @@ class ProductController extends Controller
     public function edit($id)
 {
     $products = product::findOrFail($id);
-    return view('products.edit');
+    return view('products.edit', compact('products'));
 }
 
 
@@ -117,5 +117,11 @@ class ProductController extends Controller
     Session::flash('message', 'Product deleted successfully.');
     return redirect()->route('products.index');
 }
+public function stocklevel()
+{
+    $products = Product::all();
+    return view('user.index', ['products' => $products]);
+}
+
 
 }

@@ -33,36 +33,48 @@ class EmployeesController extends Controller
         $employee = Employees::create($validatedData);
         return redirect()->route('employees.index')->with('success', 'Employee created successfully.');
     }
+    /**
+     * Show Method: 
+     * This method will retrieve a single employee 
+     * 
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
-    public function show(Employees $employee)
+    public function show($id)
     {
+        $employee = Employees::findOrFail($id);
         return view('employees.show', compact('employee'));
     }
 
-    public function edit(Employees $employee)
+    public function edit($id)
     {
+        $employee = Employees::findOrFail($id);
         return view('employees.edit', compact('employee'));
     }
 
-    public function update(Request $request, Employees $employee)
+    public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $this->validate($request, [
             'name' => 'required',
             'phone' => 'required',
-            'email' => 'required|email|unique:employees,email,' . $employee->id,
-            'national_id' => 'required|unique:employees,national_id,' . $employee->id,
+            'email' => 'required',
+            'national_id' => 'required',
             'gender' => 'required',
             'current_contract' => 'required',
             'role' => 'required'
         ]);
 
-        $employee->update($validatedData);
+        $employee = Employees::findOrFail($id);
+        $employee->update($request->all());
         return redirect()->route('employees.index')->with('success', 'Employee updated successfully.');
     }
 
-    public function destroy(Employees $employee)
+    public function destroy($id)
     {
-        $employee->delete();
+        $employee = Employees::findOrFail($id);
+        $employee-> delete();
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
     }
 }

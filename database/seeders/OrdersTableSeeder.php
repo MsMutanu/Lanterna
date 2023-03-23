@@ -12,28 +12,31 @@ class OrdersTableSeeder extends Seeder
     {
         $orders = [
             [
-                'order_id' =>1,
+                'id' =>1,
                 'customer' => 'Joe',
                 'supplier' =>'Lanterna',
                  'item' => 'mouthwash',
+                 'price' => '500',
                 'quantity' => 10,
                 'delivery_date' => '2022-01-01',
                 'order_status' => 'pending'
             ],
             [
-                'order_id' =>2,
+                'id' =>2,
                 'customer' => 'Jane',
                 'supplier' =>'Lanterna',
                 'item' =>'painkillers',
+                'price' => '50',
                 'quantity' => 20,
                 'delivery_date' => '2022-01-02',
                 'order_status' => 'approved'
             ],
             [
-                'order_id' =>3,
+                'id' =>3,
                 'customer' => 'Robert',
                 'supplier' =>'Lanterna',
                 'item' => 'piriton',
+                'price' => '10',
                 'quantity' => 30,
                 'delivery_date' => '2022-01-03',
                 'order_status' => 'delivered'

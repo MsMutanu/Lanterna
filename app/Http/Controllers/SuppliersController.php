@@ -109,9 +109,10 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
 {
     $this->validate($request, [
-        'supplier_name' => 'required',
-        'contact_information' => 'required',
-        'previous_order_history' => 'nullable',
+        'name' => 'required',
+        'phone' => 'required',
+        'email' => 'required',
+        'address' => 'required',
     ]);
 
     $supplier = Suppliers::findOrFail($id);

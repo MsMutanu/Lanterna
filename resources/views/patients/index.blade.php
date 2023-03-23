@@ -7,7 +7,6 @@
             <th>ID</th>
             <th>First Name</th>
             <th>Second Name</th>
-            <th>Gender</th>
             <th>Address</th>
             <th>Phone</th>
             <th>Email</th>

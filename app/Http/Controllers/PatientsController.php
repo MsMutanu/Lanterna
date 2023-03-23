@@ -112,8 +112,7 @@ class PatientsController extends Controller
 {
     $this->validate($request, [
         'first_name' => 'required',
-        'last_name' => 'required',
-        'patient_number' => 'required',
+        'second_name' => 'required',
         'date_of_birth' => 'required',
         'phone' => 'required',
         'address' => 'required',

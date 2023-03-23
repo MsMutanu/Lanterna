@@ -22,6 +22,13 @@ Auth::routes();
 Route::get('/user', [App\Http\Controllers\UserController::class,'index']);
 Route::get('/admin', [App\Http\Controllers\AdminController::class,'index']);
 
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login.post');
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register'])->name('register.post');
+
 
 
 Route::view(uri:'/dashboard', view: 'dashboard')->name(name:'dashboard');
@@ -115,6 +122,61 @@ Route::get('/employees/{id}/edit', [App\Http\Controllers\EmployeesController::cl
 Route::put('/employees/{id}', [App\Http\Controllers\EmployeesController::class, 'update'])->name('employees.update');
 Route::delete('/employees/{id}', [App\Http\Controllers\EmployeesController::class, 'destroy'])->name('employees.destroy');
 
+
+   
+    // Users management
+    Route::resource('admin/users', 'App\Http\Controllers\Admin\UserController')->names('admin.users') ->parameters([
+        'users' => 'id'
+    ]);
+
+
+    // Patients management
+    Route::resource('admin/patients', 'App\Http\Controllers\Admin\PatientController')->names('admin.patients')->parameters([
+        'patients' => 'id'
+    ]);
+
+
+
+    // Products management
+    Route::resource('admin/products', 'App\Http\Controllers\Admin\ProductController')->names('admin.products')->parameters([
+        'products' => 'id'
+    ]);
+
+
+
+    // Suppliers management
+    Route::resource('admin/suppliers', 'App\Http\Controllers\Admin\SupplierController')->names('admin.suppliers')->parameters([
+        'supplier' => 'id'
+    ]);
+
+
+
+    // Orders management
+    Route::resource('admin/orders', 'App\Http\Controllers\Admin\OrderController')->names('admin.orders')->parameters([
+        'orders' => 'id'
+    ]);
+
+
+
+    // Deliveries management
+    Route::resource('admin/deliveries', 'App\Http\Controllers\Admin\DeliveryController')->names('admin.deliveries')->parameters([
+        'delivery' => 'id'
+    ]);
+;
+
+
+    // Employees management
+    Route::resource('admin/employees', 'App\Http\Controllers\Admin\EmployeesController')->names('admin.employees')->parameters([
+        'employee' => 'id'
+    ]);
+
+
+
+    // Reports
+    // Route::get('admin/reports', 'App\Http\Controllers\Admin\ReportsController')->names('admin.reports')->parameters([
+    //     'reports' => 'id'
+    // ]);
+;
 
 
    
