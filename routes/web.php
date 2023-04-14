@@ -31,11 +31,11 @@ Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, '
 
 
 
-Route::view(uri:'/dashboard', view: 'dashboard')->name(name:'dashboard');
-Route::view(uri:'/delivery', view: 'delivery')->name(name:'delivery');
-Route::view(uri:'/patients', view: 'patients')->name(name:'patients');
-Route::view(uri:'/reports', view: 'reports')->name(name:'reports');
-Route::view(uri:'/settings', view: 'settings')->name(name:'settings');
+// Route::view(uri:'/dashboard', view: 'dashboard')->name(name:'dashboard');
+// Route::view(uri:'/delivery', view: 'delivery')->name(name:'delivery');
+// Route::view(uri:'/patients', view: 'patients')->name(name:'patients');
+// Route::view(uri:'/reports', view: 'reports')->name(name:'reports');
+// Route::view(uri:'/settings', view: 'settings')->name(name:'settings');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
@@ -45,10 +45,13 @@ Route::middleware(['auth'])->group(function () {
 
 // web routes
 Route::get('/reports', [App\Http\Controllers\ReportsController::class, 'index'])->name('reports.index');
-Route::get('/reports/orders', [App\Http\Controllers\ReportsController::class, 'orders'])->name('reports.orders');
-Route::get('/reports/deliveries', [App\Http\Controllers\ReportsController::class, 'deliveries'])->name('reports.deliveries');
-Route::post('/reports/orders/generate', [App\Http\Controllers\ReportsController::class, 'generateOrderReport'])->name('reports.orders.generate');
-Route::post('/reports/deliveries/generate', [App\Http\Controllers\ReportsController::class, 'generateDeliveryReport'])->name('reports.deliveries.generate');
+Route::get('/reports/sales', [App\Http\Controllers\ReportsController::class, 'generateSalesReportData'])->name('reports.sales');
+Route::get('/reports/inventory', [App\Http\Controllers\ReportsController::class, 'generateInventoryReportData'])->name('reports.inventory');
+Route::get('/reports/deliveries', [App\Http\Controllers\ReportsController::class, 'generateDeliveriesReportData'])->name('reports.deliveries');
+Route::get('/reports/generate', [App\Http\Controllers\ReportsController::class, 'generate'])->name('reports.generate');
+
+// Route::post('/reports/orders/generate', [App\Http\Controllers\ReportsController::class, 'generateOrderReport'])->name('reports.orders.generate');
+// Route::post('/reports/deliveries/generate', [App\Http\Controllers\ReportsController::class, 'generateDeliveryReport'])->name('reports.deliveries.generate');
 
 
     Route::get('/products', [App\Http\Controllers\ProductController::class,'index'])->name('products.index');
@@ -96,10 +99,12 @@ Route::post('/reports/deliveries/generate', [App\Http\Controllers\ReportsControl
     Route::get('/orders/{id}/edit', [App\Http\Controllers\OrderController::class,'edit'])->name('orders.edit');
     Route::put('/orders/{id}', [App\Http\Controllers\OrderController::class,'update'])->name('orders.update');
     Route::delete('/orders/{id}', [App\Http\Controllers\OrderController::class,'destroy'])->name('orders.destroy');
-    Route::get('/orders/{id}/generate-invoice', [App\Http\Controllers\OrderController::class ,'generateInvoice'])->name('orders.generate-invoice');
-    Route::get('/orders/generate-invoices', [App\Http\Controllers\OrderController::class,'generateInvoices'])->name('orders.generate-invoices');
-    Route::get('/orders/{order}/download-invoice', [App\Http\Controllers\OrderController::class, 'downloadInvoice'])->name('orders.downloadInvoice');
 
+Route::controller(App\Http\Controllers\OrderController::class)->group(function(){
+    Route::get('/orders/invoice/{orderid}','viewInvoice');
+    Route::get('/orders/invoice/{orderid}/generate','generateInvoice');
+   
+});
 
 
 
@@ -125,50 +130,129 @@ Route::delete('/employees/{id}', [App\Http\Controllers\EmployeesController::clas
 
    
     // Users management
-    Route::resource('admin/users', 'App\Http\Controllers\Admin\UserController')->names('admin.users') ->parameters([
-        'users' => 'id'
-    ]);
+    Route::get('/admin/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users');
+    Route::get('/admin/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('admin.users.create');
+Route::get('/admin/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('admin.users.show');
+Route::post('/admin/users', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('admin.users.store');
+Route::get('/admin/users/{user}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.users.edit');
+Route::put('/admin/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('admin.users.update');
+Route::delete('/admin/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.users.destroy');
+
 
 
     // Patients management
-    Route::resource('admin/patients', 'App\Http\Controllers\Admin\PatientController')->names('admin.patients')->parameters([
-        'patients' => 'id'
-    ]);
+    // Show patient list
+Route::get('/admin/patients', [App\Http\Controllers\Admin\PatientController::class, 'index'])->name('admin.patients');
+
+// Show patient creation form
+Route::get('/admin/patients/create', [App\Http\Controllers\Admin\PatientController::class, 'create'])->name('admin.patients.create');
+
+// Store new patient
+Route::post('/admin/patients', [App\Http\Controllers\Admin\PatientController::class, 'store'])->name('admin.patients.store');
+
+// Show patient details
+Route::get('/admin/patients/{patient}', [App\Http\Controllers\Admin\PatientController::class, 'show'])->name('admin.patients.show');
+
+// Show patient editing form
+Route::get('/admin/patients/{patient}/edit', [App\Http\Controllers\Admin\PatientController::class, 'edit'])->name('admin.patients.edit');
+
+// Update patient
+Route::put('/admin/patients/{patient}', [App\Http\Controllers\Admin\PatientController::class, 'update'])->name('admin.patients.update');
+
+// Delete patient
+Route::delete('/admin/patients/{patient}', [App\Http\Controllers\Admin\PatientController::class, 'destroy'])->name('admin.patients.destroy');
 
 
 
     // Products management
-    Route::resource('admin/products', 'App\Http\Controllers\Admin\ProductController')->names('admin.products')->parameters([
-        'products' => 'id'
-    ]);
-
+    Route::get('/admin/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('admin.products');
+    Route::get('/admin/products/create', [App\Http\Controllers\Admin\ProductController::class, 'create'])->name('admin.products.create');
+    Route::post('/admin/products', [App\Http\Controllers\Admin\ProductController::class, 'store'])->name('admin.products.store');
+    Route::get('/admin/products/{product}', [App\Http\Controllers\Admin\ProductController::class, 'show'])->name('admin.products.show');
+    Route::get('/admin/products/{product}/edit', [App\Http\Controllers\Admin\ProductController::class, 'edit'])->name('admin.products.edit');
+    Route::put('/admin/products/{product}', [App\Http\Controllers\Admin\ProductController::class, 'update'])->name('admin.products.update');
+    Route::delete('/admin/products/{product}', [App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('admin.products.destroy');
+    
 
 
     // Suppliers management
-    Route::resource('admin/suppliers', 'App\Http\Controllers\Admin\SupplierController')->names('admin.suppliers')->parameters([
-        'supplier' => 'id'
-    ]);
+    Route::get('/admin/suppliers', [App\Http\Controllers\Admin\SupplierController::class, 'index'])->name('admin.suppliers');
+Route::get('/admin/suppliers/create', [App\Http\Controllers\Admin\SupplierController::class, 'create'])->name('admin.suppliers.create');
+Route::post('/admin/suppliers', [App\Http\Controllers\Admin\SupplierController::class, 'store'])->name('admin.suppliers.store');
+Route::get('/admin/suppliers/{id}', [App\Http\Controllers\Admin\SupplierController::class, 'show'])->name('admin.suppliers.show');
+Route::get('/admin/suppliers/{id}/edit', [App\Http\Controllers\Admin\SupplierController::class, 'edit'])->name('admin.suppliers.edit');
+Route::put('/admin/suppliers/{id}', [App\Http\Controllers\Admin\SupplierController::class, 'update'])->name('admin.suppliers.update');
+Route::delete('/admin/suppliers/{id}', [App\Http\Controllers\Admin\SupplierController::class, 'destroy'])->name('admin.suppliers.destroy');
+
 
 
 
     // Orders management
-    Route::resource('admin/orders', 'App\Http\Controllers\Admin\OrderController')->names('admin.orders')->parameters([
-        'orders' => 'id'
-    ]);
+    // Display all orders
+Route::get('/admin/orders', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('admin.orders');
+
+// Show the form for creating a new order
+Route::get('/admin/orders/create', [App\Http\Controllers\Admin\OrderController::class, 'create'])->name('admin.orders.create');
+
+// Store a newly created order in storage
+Route::post('/admin/orders', [App\Http\Controllers\Admin\OrderController::class, 'store'])->name('admin.orders.store');
+
+// Display the specified order
+Route::get('/admin/orders/{id}', [App\Http\Controllers\Admin\OrderController::class, 'show'])->name('admin.orders.show');
+
+// Show the form for editing the specified order
+Route::get('/admin/orders/{id}/edit', [App\Http\Controllers\Admin\OrderController::class, 'edit'])->name('admin.orders.edit');
+
+// Update the specified order in storage
+Route::put('/admin/orders/{id}', [App\Http\Controllers\Admin\OrderController::class, 'update'])->name('admin.orders.update');
+
+// Remove the specified order from storage
+Route::delete('/admin/orders/{id}', [App\Http\Controllers\Admin\OrderController::class, 'destroy'])->name('admin.orders.destroy');
+
 
 
 
     // Deliveries management
-    Route::resource('admin/deliveries', 'App\Http\Controllers\Admin\DeliveryController')->names('admin.deliveries')->parameters([
-        'delivery' => 'id'
-    ]);
-;
+    // Index
+Route::get('/admin/deliveries', [App\Http\Controllers\Admin\DeliveryController::class, 'index'])->name('admin.deliveries');
+
+// Create
+Route::get('/admin/deliveries/create', [App\Http\Controllers\Admin\DeliveryController::class, 'create'])->name('admin.deliveries.create');
+Route::post('/admin/deliveries', [App\Http\Controllers\Admin\DeliveryController::class, 'store'])->name('admin.deliveries.store');
+
+// Show
+Route::get('/admin/deliveries/{delivery}', [App\Http\Controllers\Admin\DeliveryController::class, 'show'])->name('admin.deliveries.show');
+
+// Edit
+Route::get('/admin/deliveries/{delivery}/edit', [App\Http\Controllers\Admin\DeliveryController::class, 'edit'])->name('admin.deliveries.edit');
+Route::put('/admin/deliveries/{delivery}', [App\Http\Controllers\Admin\DeliveryController::class, 'update'])->name('admin.deliveries.update');
+
+// Destroy
+Route::delete('/admin/deliveries/{delivery}', [App\Http\Controllers\Admin\DeliveryController::class, 'destroy'])->name('admin.deliveries.destroy');
+
 
 
     // Employees management
-    Route::resource('admin/employees', 'App\Http\Controllers\Admin\EmployeesController')->names('admin.employees')->parameters([
-        'employee' => 'id'
-    ]);
+   // Display a listing of employees
+Route::get('/admin/employees', [App\Http\Controllers\Admin\EmployeeController::class, 'index'])->name('admin.employees');
+
+// Show the form for creating a new employee
+Route::get('/admin/employees/create', [App\Http\Controllers\Admin\EmployeeController::class, 'create'])->name('admin.employees.create');
+
+// Store a newly created employee in storage
+Route::post('/admin/employees', [App\Http\Controllers\Admin\EmployeeController::class, 'store'])->name('admin.employees.store');
+
+// Display the specified employee
+Route::get('/admin/employees/{employee}', [App\Http\Controllers\Admin\EmployeeController::class, 'show'])->name('admin.employees.show');
+
+// Show the form for editing the specified employee
+Route::get('/admin/employees/{employee}/edit', [App\Http\Controllers\Admin\EmployeeController::class, 'edit'])->name('admin.employees.edit');
+
+// Update the specified employee in storage
+Route::put('/admin/employees/{employee}', [App\Http\Controllers\Admin\EmployeeController::class, 'update'])->name('admin.employees.update');
+
+// Remove the specified employee from storage
+Route::delete('/admin/employees/{employee}', [App\Http\Controllers\Admin\EmployeeController::class, 'destroy'])->name('admin.employees.destroy');
 
 
 

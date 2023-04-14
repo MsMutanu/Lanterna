@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('item');
             $table->string('price');
             $table->integer('quantity');
+            $table->integer('total_price');
             $table->date('delivery_date');
             $table->string('order_status');
             

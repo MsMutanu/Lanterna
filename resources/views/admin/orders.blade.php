@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1>Orders</h1>
-            <a href="{{ route('orders.create') }}" class="btn btn-primary mb-3">Create New Order</a>
+            <a href="{{ route('admin.orders.create') }}" class="btn btn-primary mb-3">Create New Order</a>
             <table class="table">
                 <thead>
                     <tr>
@@ -35,12 +35,9 @@
                         <td>{{ $order->order_status}}</td>
                         
                         <td>
-                        <a href="{{ url('/orders/invoice/'.$order->id.'/generate') }}" class="btn btn-primary">Download Invoice</a>
-
-                        <a href="{{ url('orders/invoice/'.$order->id) }}" target="_blank" class="btn btn-primary">View Invoice</a>
-                            <a href="{{ route('orders.show', $order->id) }}" class="btn btn-info">View</a>
-                            <a href="{{ route('orders.edit', $order->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('orders.destroy', $order->id) }}" method="POST" class="d-inline">
+                              <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Delete</button>

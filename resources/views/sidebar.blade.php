@@ -59,7 +59,7 @@
         <li><a href="{{ route('orders.index') }}">Orders</a></li>
         <li><a href="{{ route('deliveries.index') }}">Deliveries</a></li>
         <li><a href="{{ route('employees.index') }}">Employees</a></li>
-        <li><a href="{{ route('reports.index') }}">Reports</a></li>
+        <?php // <li><a href="{{ route('reports.index') }}">Reports</a></li> ?>
        
        
     </ul>

@@ -9,5 +9,18 @@ class Order extends Model
 {
     protected $table = 'order';
     protected $primaryKey = 'id';
-    protected $fillable = [ 'order_id','customer','supplier','item','price', 'quantity',  'delivery_date', 'order_status'];
+    protected $fillable = [ 'order_id','customer','supplier','item','price', 'quantity', 'total_price', 'delivery_date', 'order_status'];
+
+    
+        public function items()
+        {
+            return $this->hasMany(OrderItem::class);
+        }
+    
+        public function total()
+        {
+            return $this->items->sum('price');
+        }
+    
+    
 }

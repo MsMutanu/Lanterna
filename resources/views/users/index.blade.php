@@ -11,7 +11,7 @@
                     <a href="{{ route('orders.index') }}" class="list-group-item">Orders</a>
                     <a href="{{ route('deliveries.index') }}" class="list-group-item">Deliveries</a>
                     <a href="{{ route('employees.index') }}" class="list-group-item">Employees</a>
-                    <a href="{{ route('reports.index') }}" class="list-group-item">Reports</a>
+                    <?php // <a href="{{ route('reports.index') }}" class="list-group-item">Reports</a> ?>
                   
                 </div>
             </div>
@@ -32,21 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($products as $product)
-                    <tr>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->quantity }}</td>
-                        <td>
-                            @if ($product->quantity > 10)
-                                <span class="badge badge-success">In Stock</span>
-                            @elseif ($product->quantity > 0 && $product->quantity <= 10)
-                                <span class="badge badge-warning">Low Stock</span>
-                            @else
-                                <span class="badge badge-danger">Out of Stock</span>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
+                
             </tbody>
         </table>
                             </div>
@@ -58,7 +44,9 @@
                                 Recent Orders
                             </div>
                             <div class="card-body">
-                                <!-- Add logic to display recent orders -->
+                                <!-- How to display recent orders?-->
+               
+
                             </div>
                         </div>
                     </div>

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form>
+    <form action="{{ route('reports.generate') }}" method="GET">
         <div class="form-group">
             <label for="start_date">Start Date</label>
             <input type="date" class="form-control" id="start_date" name="start_date">

@@ -32,6 +32,10 @@
                 <label for="quantity">Quantity</label>
                 <input type="number" class="form-control" id="quantity" name="quantity" value="{{ $order->quantity }}">
             </div>
+            <div class="form-group">
+                <label for="price">Total Price</label>
+                <input type="number" class="form-control" id="price" name="total_price" value="{{ $order->total_price }}">
+            </div>
 
             <div class="form-group">
                 <label for="delivery_date">Delivery Date</label>

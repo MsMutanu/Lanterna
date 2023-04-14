@@ -33,3 +33,4 @@ class UserTableSeeder extends Seeder
 
     }
 }
+

@@ -54,34 +54,33 @@
             </div>
 
             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-              <label for="price" class="col-md-4 control-label">Price</label>
-
-              <div class="col-md-6">
-                <input id="price" type="number" class="form-control" name="price" value="{{ old('price') }}" required>
-
-                @if ($errors->has('price'))
-                  <span class="help-block">
-                    <strong>{{ $errors->first('price') }}</strong>
-                  </span>
-                @endif
-              </div>
-            </div>
-
-            <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}">
-              <label for="quantity" class="col-md-4 control-label">Quantity</label>
-
-              <div class="col-md-6">
-                <input id="quantity" type="number" class="form-control" name="quantity" value="{{ old('quantity') }}" required>
-
-                @if ($errors->has('quantity'))
-                  <span class="help-block">
-                    <strong>{{ $errors->first('quantity') }}</strong>
-                  </span>
-                @endif
-              </div>
-            </div>
-
             <div class="form-group">
+    <label for="price">Price</label>
+    <input type="number" name="price" id="price" class="form-control" oninput="calculateTotalPrice()" required>
+</div>
+
+<div class="form-group">
+    <label for="quantity">Quantity</label>
+    <input type="number" name="quantity" id="quantity" class="form-control" oninput="calculateTotalPrice()" required>
+</div>
+
+<div class="form-group">
+    <label for="total_price">Total Price</label>
+    <input type="number" name="total_price" id="total_price" class="form-control" value="0" readonly>
+</div>
+
+<script>
+function calculateTotalPrice() {
+    var price = parseFloat(document.getElementById('price').value);
+    var quantity = parseInt(document.getElementById('quantity').value);
+    var totalPrice = price * quantity;
+
+    if (!isNaN(totalPrice)) {
+        document.getElementById('total_price').value = totalPrice;
+    }
+}
+</script>
+
                                 <label for="delivery_date">Delivery Date</label>
                                 <input type="date" class="form-control" id="delivery_date" name="delivery_date">
                             </div>

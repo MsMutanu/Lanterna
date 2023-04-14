@@ -18,6 +18,7 @@ class OrdersTableSeeder extends Seeder
                  'item' => 'mouthwash',
                  'price' => '500',
                 'quantity' => 10,
+                'total_price'=>'5000',
                 'delivery_date' => '2022-01-01',
                 'order_status' => 'pending'
             ],
@@ -28,6 +29,7 @@ class OrdersTableSeeder extends Seeder
                 'item' =>'painkillers',
                 'price' => '50',
                 'quantity' => 20,
+                'total_price'=>'1000',
                 'delivery_date' => '2022-01-02',
                 'order_status' => 'approved'
             ],
@@ -38,6 +40,7 @@ class OrdersTableSeeder extends Seeder
                 'item' => 'piriton',
                 'price' => '10',
                 'quantity' => 30,
+                'total_price'=>'300',
                 'delivery_date' => '2022-01-03',
                 'order_status' => 'delivered'
             ]
